@@ -9,4 +9,6 @@ import scrapy
 class ArticlesItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    #_id = scrapy.Field()
+    title = scrapy.Field()
+    content = scrapy.Field()
