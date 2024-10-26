@@ -12,12 +12,37 @@ BOT_NAME = "articles"
 SPIDER_MODULES = ["articles.spiders"]
 NEWSPIDER_MODULE = "articles.spiders"
 
+SPLASH_URL = "http://localhost:8050"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "articles (+http://www.yourdomain.com)"
+USER_AGENT = [
+    ('Mozilla/5.0 (X11; Linux x86_64) '
+     'AppleWebKit/537.36 (KHTML, like Gecko) '
+     'Chrome/57.0.2987.110 '
+     'Safari/537.36'),  # chrome
+    ('Mozilla/5.0 (X11; Linux x86_64) '
+     'AppleWebKit/537.36 (KHTML, like Gecko) '
+     'Chrome/61.0.3163.79 '
+     'Safari/537.36'),  # chrome
+    ('Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) '
+     'Gecko/20100101 '
+     'Firefox/55.0'),  # firefox
+    ('Mozilla/5.0 (X11; Linux x86_64) '
+     'AppleWebKit/537.36 (KHTML, like Gecko) '
+     'Chrome/61.0.3163.91 '
+     'Safari/537.36'),  # chrome
+    ('Mozilla/5.0 (X11; Linux x86_64) '
+     'AppleWebKit/537.36 (KHTML, like Gecko) '
+     'Chrome/62.0.3202.89 '
+     'Safari/537.36'),  # chrome
+    ('Mozilla/5.0 (X11; Linux x86_64) '
+     'AppleWebKit/537.36 (KHTML, like Gecko) '
+     'Chrome/63.0.3239.108 '
+     'Safari/537.36'),  # chrome
+]
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -25,7 +50,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -37,22 +62,45 @@ ROBOTSTXT_OBEY = True
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-#}
+DEFAULT_REQUEST_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Connection": "keep-alive",
+    "Cookie": "nyt-a=VQcZMDzu21RMHbLOL7J6KX; datadome=ro8pSzINB6SyVuL8dTLi6Gj0xLaOv6f55bnm~4OdzqCROtskiVfB5VhB~PDef1xn6HuKASOac~zDyeKUxF1WdUcSUbsb9NWq7WmGi5jGZKB7Z52m9L0OCrZfGm~pV14U; nyt-gdpr=0; nyt-purr=cfhhcfhhhckfhcfshgas2; nyt-us=0; nyt-geo=SG; nyt-b3-traceid=9429dc75556e46d9b00ab2f7b0cf36dc; nyt-jkidd=uid=0&lastRequest=1729670080088&activeDays=%5B0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C1%5D&adv=1&a7dv=1&a14dv=1&a21dv=1&lastKnownType=anon&newsStartDate=&entitlements=",
+    "Priority": "u=0, i",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "TE": "trailers",
+    "Upgrade-Insecure-Requests": 1,
+    #"Hosts": "www.nytimes.com",
+
+}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "articles.middlewares.ArticlesSpiderMiddleware": 543,
-#}
+SPIDER_MIDDLEWARES = {
+    "scrapy_splash.SplashDeduplicateArgsMiddleware": 100,
+    #"articles.middlewares.ArticlesSpiderMiddleware": 543,
+}
+
+DUPEFILTER_CLASS = "scrapy_splash.SplashAwareDupeFilter"
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "articles.middlewares.ArticlesDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    "scrapy.downloadermiddlewares.offsite.OffsiteMiddleware": None,
+    "scrapy_splash.SplashCookiesMiddleware": 723,
+    "scrapy_splash.SplashMiddleware": 725,
+    "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
+    "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
+    "articles.middlewares.ArticlesDownloaderMiddleware": 543,
+    "scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware": 400,
+    'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
+    
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -91,3 +139,7 @@ ROBOTSTXT_OBEY = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+#RETRY_TIMES = 2
+#RETRY_HTTP_CODES = [500, 403]
+
