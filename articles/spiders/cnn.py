@@ -26,7 +26,6 @@ class CnnSpider(scrapy.Spider):
         dateStr = response.css("div.timestamp::text").get().strip()
         pattern = r'(?P<hour>\d+):(?P<minute>\d+) (?P<A_PM>\w\w) \w+, \w+ (?P<month>\w+) (?P<day>\d+), (?P<year>\d+)'
         match = re.search(pattern, dateStr)
-        print(match)
         if match:
             hour, minute, a_pm = int(match.group('hour')), int(match.group('minute')), match.group('A_PM')
             month, day, year = match.group('month'), int(match.group('day')), match.group('year')
