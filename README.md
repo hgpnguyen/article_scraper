@@ -7,10 +7,11 @@ Currently, the scraper can only scrape "edition.cnn.com" and "vnexpress.net" dom
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Install Python
+* Python
   ```sh
-  python install -r requirements.txt
+  sudo apt-get update
+  sudo apt-get install python3.8
   ```
 
 ### Installation
