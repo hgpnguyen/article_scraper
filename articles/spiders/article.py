@@ -15,7 +15,7 @@ lua_script = """
     """
 
 """
-Using Splash to bypass 401 error but can't get content due to geo capcha delivery.
+Using Splash to bypass 401 error but can't get content due to geo capcha delivery. Leave it for later
 """
 
 class ArticleSpider(scrapy.Spider):

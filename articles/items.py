@@ -12,3 +12,5 @@ class ArticlesItem(scrapy.Item):
     #_id = scrapy.Field()
     title = scrapy.Field()
     content = scrapy.Field()
+    byline = scrapy.Field()
+    updated_date = scrapy.Field()
